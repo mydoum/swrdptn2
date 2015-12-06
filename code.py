@@ -20,6 +20,7 @@ customers = [
     "bard-1.png",
     "bard-2.png",
     "musketeer-1.png",
+    "musketeer-2.png",
     "mercenary-2.png",
     "barbarian-1.png",
     "barbarian-2.png",
@@ -31,12 +32,17 @@ customers = [
     "engineer-3.png",
     "guard-1.png",
     "guard-2.png",
+    "guard-3.png",
     "healer-1.png",
     "healer-2.png",
     "mercenary-1.png",
     "mercenary-3.png",
     "thief-1.png",
-    "thief-2.png"
+    "thief-2.png",
+    "thief-3.png",
+    "thief-4.png",
+    "monk-1.png",
+    "monk-2.png"
 ]
 
 employees = [
@@ -50,7 +56,11 @@ employees = [
     "blacksmith-1.png",
     "blacksmith-2.png",
     "tailor-1.png",
-    "tailor-2.png"
+    "tailor-2.png",
+    "armorer-1.png",
+    "armorer-2.png",
+    "druid-1.png",
+    "druid-2.png"
 ]
 
 customerInteractions = [
@@ -74,13 +84,18 @@ suggestActions = [
 
 startActions = [
     "ok.png",
+    "ok-2.png",
     "next.png",
     "open.png",
     "cancel.png",
-    "done.png"
+    "cancel-2.png",
+    "cancel-3.png",
+    "done.png",
+    "refuse.png"
 ]
 
 def makeEmployeeAction():
+    random.shuffle(employeeInteractions)
     for action in employeeInteractions:
         print "trying action : " + action
 
@@ -129,7 +144,7 @@ def getCustomer():
 
         if coord != (0, 0):
             pyautogui.click(coord)
-            print "Customer found!"
+            print "Customer found! on coord : " + str(coord)
             return True
     return False
 
@@ -147,6 +162,7 @@ def getEmployee():
     return False
 
 def startAction():
+    random.shuffle(startActions)
     for action in startActions:
         print "trying action : " + action
 
@@ -193,7 +209,9 @@ def play():
                     im = pyautogui.screenshot()
                     im.save(os.getcwd() + '/temp/my_screenshot2.png')
                     makeSuggestAction()
-                    time.sleep(2.5)
+                    time.sleep(2)
+                else:
+                    time.sleep(2)
 
 def main():
     while True :

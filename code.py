@@ -2,6 +2,7 @@ import pyautogui
 import os
 import cv2
 import time
+import random
 
 """
 Works on OSX, any browser, any resolution. Use the "template_match" function of OpenCV to find the subpicture
@@ -13,7 +14,11 @@ customers = [
     "hunter-1.png",
     "hunter-2.png",
     "knight-1.png",
+    "knight-2.png",
     "illusionist-1.png",
+    "illusionist-2.png",
+    "bard-1.png",
+    "bard-2.png",
     "musketeer-1.png",
     "mercenary-2.png",
     "barbarian-1.png",
@@ -29,18 +34,23 @@ customers = [
     "healer-1.png",
     "healer-2.png",
     "mercenary-1.png",
+    "mercenary-3.png",
     "thief-1.png",
     "thief-2.png"
 ]
 
 employees = [
     "waiting.png",
+    "waiting-2.png",
     "coffee.png",
     "shopkeeper_woman-1.png",
     "leather-worker-1.png",
     "leather-worker-2.png",
-    "carpenter-1.png",
-    "carpenter-2.png"
+    "carpenter-2.png",
+    "blacksmith-1.png",
+    "blacksmith-2.png",
+    "tailor-1.png",
+    "tailor-2.png"
 ]
 
 customerInteractions = [
@@ -51,6 +61,7 @@ customerInteractions = [
 
 employeeInteractions = [
     "zero.png",
+    "one.png",
     "lv3.png",
     "lv2.png"
 ]
@@ -62,8 +73,11 @@ suggestActions = [
 ]
 
 startActions = [
+    "ok.png",
     "next.png",
-    "open.png"
+    "open.png",
+    "cancel.png",
+    "done.png"
 ]
 
 def makeEmployeeAction():
@@ -107,6 +121,7 @@ def makeCustomerAction():
 
 
 def getCustomer():
+    random.shuffle(customers)
     for customer in customers:
         print "trying with : " + customer
 
@@ -119,6 +134,7 @@ def getCustomer():
     return False
 
 def getEmployee():
+    random.shuffle(employees)
     for employee in employees:
         print "trying with : " + employee
         coord = analysePicture(os.getcwd() + '/pictures/employees/' + employee, os.getcwd() + '/temp/my_screenshot2.png', 0.8)
@@ -161,22 +177,23 @@ def play():
     im.save(os.getcwd() + '/temp/my_screenshot2.png')
 
     if startAction() == False:
-        if getCustomer() == False:
-            if getEmployee():
-                time.sleep(1.5)
-                im = pyautogui.screenshot()
-                im.save(os.getcwd() + '/temp/my_screenshot2.png')
-                makeEmployeeAction()
-        else:
+        if getEmployee():
             time.sleep(1.5)
             im = pyautogui.screenshot()
             im.save(os.getcwd() + '/temp/my_screenshot2.png')
-            if makeCustomerAction() == "suggest":
+            makeEmployeeAction()
+            time.sleep(1.5)
+        else:
+            if getCustomer():
                 time.sleep(1.5)
                 im = pyautogui.screenshot()
                 im.save(os.getcwd() + '/temp/my_screenshot2.png')
-                makeSuggestAction()
-                time.sleep(2.5)
+                if makeCustomerAction() == "suggest":
+                    time.sleep(1.5)
+                    im = pyautogui.screenshot()
+                    im.save(os.getcwd() + '/temp/my_screenshot2.png')
+                    makeSuggestAction()
+                    time.sleep(2.5)
 
 def main():
     while True :
